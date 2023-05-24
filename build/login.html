@@ -86,7 +86,7 @@
                 formData.append('password', this.password);
 
                 fetch(
-                    'http://localhost:8010/token', {
+                    '/api/token', {
                         body: formData,
                         method: "POST",
                         // headers: {
@@ -98,7 +98,7 @@
                         console.log(rest)
                         this.set_auth_headers(token_type, access_token)
                         fetch(
-                            "http://localhost:8010/me",
+                            "/api/me",
                             {
                                 headers: {
                                     "Content-Type": "application/json",

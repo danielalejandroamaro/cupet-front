@@ -192,7 +192,7 @@
             },
             load_data() {
                 fetch(
-                    "http://localhost:8010/admin/qr",
+                    "/api/admin/qr",
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -204,7 +204,7 @@
                 ).then(({items}) => {
                     this.items = items.map(
                         item => ({
-                            src: `http://localhost:8010/get_qr?code=${item.code}`,
+                            src: `/api/get_qr?code=${item.code}`,
                             ...item
                         })
                     );
@@ -213,7 +213,7 @@
                 }).catch(console.log)
             }, fetchData() {
                 fetch(
-                    "http://localhost:8010/me",
+                    "/api/me",
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -237,7 +237,7 @@
                 formData.append('password', this.password);
 
                 fetch(
-                    'http://localhost:8010/token', {
+                    '/api/token', {
                         body: formData,
                         method: "POST",
                         // headers: {

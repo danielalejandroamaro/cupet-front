@@ -121,7 +121,7 @@
         beforeMount() {
             this.active_tab = "/index";
             fetch(
-                "http://localhost:8010/get_next_code"
+                "/api/get_next_code"
                 , {
                     method: "GET",
                     // mode: 'cors',
@@ -142,7 +142,7 @@
             fetchData() {
                 console.log("fetchData");
                 fetch(
-                    "http://localhost:8010/products"
+                    "/api/products"
                     , {
                         method: "GET",
                         // mode: 'cors',
@@ -166,7 +166,7 @@
                     "product_id": this.product_id
                 };
                 fetch(
-                    "http://localhost:8010/add_to_stack",
+                    "/api/add_to_stack",
                     {
                         body: JSON.stringify(_data),
                         method: "POST",

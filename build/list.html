@@ -147,7 +147,7 @@
             this.active_tab = "/list";
             console.log("beforeMount");
             fetch(
-                "http://localhost:8010/products"
+                "/api/products"
                 , {
                     method: "GET",
                     // mode: 'cors',
@@ -174,7 +174,7 @@
                 const queryParams = new URLSearchParams({product_id: this.product_id});
                 console.log("fetchData");
                 fetch(
-                    `http://localhost:8010/queue?${queryParams}`
+                    `/api/queue?${queryParams}`
                     , {
                         method: "GET"
                     }

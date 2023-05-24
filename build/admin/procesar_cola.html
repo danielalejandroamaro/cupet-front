@@ -89,7 +89,7 @@
             },
             fetchData() {
                 fetch(
-                    "http://localhost:8010/me",
+                    "/api/me",
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -110,7 +110,7 @@
                 formData.append('password', this.password);
 
                 fetch(
-                    'http://localhost:8010/token', {
+                    '/api/token', {
                         body: formData,
                         method: "POST",
                         // headers: {
