@@ -1,6 +1,26 @@
 {
   "name": "cupet-front",
-  "version": "0.1.0",
-  "main": "index.js",
-  "license": "MIT"
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --port 8080",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "axios": "^1.4.0",
+    "moment": "^2.29.4",
+    "qs": "^6.11.2",
+    "roboto-fontface": "*",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.1",
+    "vue3-qr-reader": "^1.0.0",
+    "vuetify": "^3.3.1",
+    "webfontloader": "^1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.3.8",
+    "vite-plugin-vuetify": "^1.0.0"
+  }
 }
