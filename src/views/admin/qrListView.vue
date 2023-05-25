@@ -19,7 +19,12 @@ export default {
     this.fetchData();
   },
   methods: {
-    descargarImagen(url, nombreArchivo) {
+    crateNewQr() {
+
+    },
+    descargarImagen(item) {
+      let url = item.src;
+      let nombreArchivo = "qr-list";
       var link = document.createElement('a');
       link.href = url;
       link.download = nombreArchivo;
@@ -53,8 +58,20 @@ export default {
 <template>
   <v-container>
     <v-row v-if="items.length>0">
+      <v-col cols="12">
+        <v-card class="py-4" @click="crateNewQr">
+          <div class="d-flex flex-no-wrap flex-row">
+            <div class="flex-grow-1"></div>
+            <div class="flex-grow-0 pr-3 flex-shrink-0 d-flex align-center flex-row">
+              <v-icon size="125">
+                mdi-plus
+              </v-icon>
+            </div>
+          </div>
+        </v-card>
+      </v-col>
       <v-col cols="12" v-for="item in items">
-        <v-card>
+        <v-card @click="descargarImagen(item)">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title class="text-h5">
