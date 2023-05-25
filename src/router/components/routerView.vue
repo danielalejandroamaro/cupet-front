@@ -9,7 +9,7 @@ export default {}
       <v-toolbar>
         <v-toolbar-title>CUPET</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn :to="{name:'qrReaderView'}" icon>
+        <v-btn :to="{name:'searchQueue'}" icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
         <v-btn :to="{name:'qrReaderView'}" icon>

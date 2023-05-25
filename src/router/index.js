@@ -6,6 +6,7 @@ import qrListView from "@/views/admin/qrListView.vue";
 import {h} from 'vue'
 import routerView from "@/router/components/routerView.vue";
 import qrForm from "@/views/qrForm.vue";
+import searchQueue from "@/views/searchQueue.vue";
 
 const comingSoon = {
   render: () => h('h1', "Coming soon...")
@@ -60,6 +61,7 @@ export const routes = [
   new Route('/qr', null, routerView, [
     new Route('reader', 'qrReaderView', qrView),
     new Route('form', 'qrForm', qrForm),
+    new Route('search', 'searchQueue', searchQueue),
   ]),
   new Route('/admin', 'adminRouterView', routerView, [
     new Route('qr-list', "qrListView", qrListView)

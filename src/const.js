@@ -7,3 +7,4 @@ export const StorageKey = {
 };
 
 export const isDevelopmentMode = process.env.NODE_ENV === "development";
+export const DEFAULT_SEARCH_DEBOUNCE = 1500;
