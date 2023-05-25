@@ -20,7 +20,12 @@ export default {
   },
   methods: {
     crateNewQr() {
-
+      _axios.post(
+        "/admin/qr"
+      ).then(({data}) => {
+        this.load_data();
+        return data;
+      })
     },
     descargarImagen(item) {
       let url = item.src;
@@ -60,13 +65,11 @@ export default {
     <v-row v-if="items.length>0">
       <v-col cols="12">
         <v-card class="py-4" @click="crateNewQr">
-          <div class="d-flex flex-no-wrap flex-row">
-            <div class="flex-grow-1"></div>
-            <div class="flex-grow-0 pr-3 flex-shrink-0 d-flex align-center flex-row">
-              <v-icon size="125">
-                mdi-plus
-              </v-icon>
-            </div>
+          <div
+            class="flex-grow-1 pr-3 text-center mx-auto">
+            <v-icon size="50">
+              mdi-plus
+            </v-icon>
           </div>
         </v-card>
       </v-col>

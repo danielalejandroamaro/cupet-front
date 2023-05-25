@@ -5,6 +5,8 @@ import qrView from "@/views/qrView.vue";
 import qrListView from "@/views/admin/qrListView.vue";
 import {h} from 'vue'
 import routerView from "@/router/components/routerView.vue";
+import qrForm from "@/views/qrForm.vue";
+
 const comingSoon = {
   render: () => h('h1', "Coming soon...")
 }
@@ -55,8 +57,10 @@ const internal_routers = [
 
 export const routes = [
   new Route('/login', 'login', loginView),
-  new Route('/qrReader', 'qrReaderView', qrView),
-  // // new Route('/form', 'form', formView),
+  new Route('/qr', null, routerView, [
+    new Route('reader', 'qrReaderView', qrView),
+    new Route('form', 'qrForm', qrForm),
+  ]),
   new Route('/admin', 'adminRouterView', routerView, [
     new Route('qr-list', "qrListView", qrListView)
   ]),

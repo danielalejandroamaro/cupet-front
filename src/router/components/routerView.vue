@@ -6,41 +6,24 @@ export default {}
 <template>
   <v-app>
     <v-app-bar app>
-      <v-footer
-        :padless="true"
-      >
-        <v-card
-          flat
-          tile
-          width="100%"
-          class="red lighten-1 text-center"
+      <v-toolbar>
+        <v-toolbar-title>CUPET</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn :to="{name:'qrReaderView'}" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+        <v-btn :to="{name:'qrReaderView'}" icon>
+          <v-icon>mdi-qrcode-scan</v-icon>
+        </v-btn>
+        <v-btn
+          :to="{name:'login'}" color="primary"
         >
-          <v-card-text>
-            <v-btn
-              :key="icon"
-              class="mx-4"
-            >
-              <v-icon size="24px">
-                mdi-qrcode
-              </v-icon>
-              list
-            </v-btn>
-           <v-btn
-              :key="icon"
-              class="mx-4"
-            >
-              <v-icon size="24px">
-                mdi-playlist-check
-              </v-icon>
-              list
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-footer>
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+      </v-toolbar>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
-
     </v-main>
   </v-app>
 </template>

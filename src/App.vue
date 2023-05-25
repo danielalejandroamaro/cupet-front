@@ -2,12 +2,16 @@
   <router-view/>
 </template>
 
-<script >
+<script>
 import {clean_auth_headers, load_auth_headers} from "@/plugins/axios/tools";
 import {_axios} from "@/plugins/axios";
 
 export default {
   beforeMount() {
+    if (this.$route.query.code) {
+      this.$router.push({name: 'qrForm'})
+    }
+
     if (!window.location.href.includes('/admin'))
       return
     if (window.location.href.includes('/logout')) {
