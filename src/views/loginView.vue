@@ -7,6 +7,7 @@ export default {
   data: () => ({
     username: "",
     password: "",
+    show1: false,
   }),
   methods: {
     // load_auth_headers() {
@@ -55,28 +56,50 @@ export default {
 
 <template>
   <v-app style="position: absolute;top: 0;left: 0;right: 0;bottom: 0">
-    <v-main class="d-flex flex-row overflow-auto" style="height: 100%">
-      <div class="fill-height flex-grow-1 d-flex flex-column justify-space-around align-center">
-        <v-form @submit.prevent="submitForm"
-                style="min-width: 450px"
+    <v-main class="d-flex flex-row overflow-auto fill-height">
+      <div
+        class="fill-height flex-grow-1 d-flex flex-column justify-space-around align-center"
+        :style="{position: 'relative'}"
+      >
+        <v-form
+          @submit.prevent="submitForm"
+          :style="{
+            minWidth:$vuetify.display.xs?'80%':'430px'
+          }"
         >
-          <v-card elevation="2" class="pa-6">
-            <v-container>
-              <v-row>
-                <v-col cols="12">
+          <v-card elevation="2"
+                  :class="$vuetify.display.mobile? 'pa-2':'pa-4'"
+                  prepend-icon="mdi-home"
+          >
+            <template v-slot:title>
+              Login
+            </template>
+            <v-container fluid class="pa-1">
+              <v-row class="flex-grow-1 overflow-auto ma-0 pa-1">
+                <v-col cols="12"
+                       class="d-flex flex-row pa-0"
+                >
                   <v-text-field label="username" v-model="username"></v-text-field>
                 </v-col>
-                <v-col cols="12">
-                  <v-text-field type="password" label="password" v-model="password"></v-text-field>
+                <v-col cols="12"
+                       class="d-flex flex-row pa-0"
+                >
+                  <v-text-field
+                    label="password"
+                    v-model="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="show1=!show1"
+                    :type="show1 ? 'text' : 'password'"
+                  >
+                  </v-text-field>
                 </v-col>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn type="submit">
-                    submit
-                  </v-btn>
-                </v-card-actions>
               </v-row>
             </v-container>
+            <v-card-actions class="pt-0">
+              <v-btn type="submit">
+                submit
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-form>
       </div>
