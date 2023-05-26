@@ -1,11 +1,12 @@
 <script>
 import {defineComponent, onBeforeMount, reactive, ref} from 'vue'
 import {_axios} from "@/plugins/axios";
+import AppQueueProcessCard from "@/components/appQueueProcessCard.vue";
 
 export default defineComponent({
   name: "queueView",
+  components: {AppQueueProcessCard},
   setup() {
-
     const items = ref([]);
     const products = ref([]);
     const newQueueDialog = ref(false);
@@ -60,9 +61,7 @@ export default defineComponent({
       )
     }
 
-    onBeforeMount(
-      fetchData
-    )
+    onBeforeMount(fetchData)
     return {
       items,
       products,
@@ -163,39 +162,12 @@ export default defineComponent({
         </v-dialog>
       </v-col>
       <v-col cols="12" v-for="item in items">
-        <v-card>
-          <v-card-title>
-            {{ $filters.dateFromNowUtc(item.created_at) }}
-          </v-card-title>
-          <v-card-subtitle
-            class="d-flex flex-row justify-space-between"
-          >
-            <v-container>
-              <v-row class="py-3">
-                <v-col class="d-flex flex-row my-auto justify-space-between">
-                  <span class="my-auto"> min: </span>
-                  <v-chip> {{ item.min_index }}</v-chip>
-                </v-col>
-                <v-col class="d-flex flex-row pl-3 my-auto justify-space-between">
-                  <span class="my-auto"> max: </span>
-                  <v-chip> {{ item.max_index }}</v-chip>
-                </v-col>
-                <v-col class="d-flex flex-row pl-3 my-auto justify-space-between">
-                  <span class="my-auto"> producto: </span>
-                  <v-chip> {{ item['product_id.name'] }}</v-chip>
-                </v-col>
-              </v-row>
-            </v-container>
-            <v-card-actions>
-              <v-btn
-                variant="flat"
-                color="error"
-                @click="deleteQueue(item.id)">
-                delete
-              </v-btn>
-            </v-card-actions>
-          </v-card-subtitle>
-        </v-card>
+        <app-queue-process-card
+          :item="item"
+          @deleteQueue="deleteQueue(item.id)"
+        >
+
+        </app-queue-process-card>
       </v-col>
     </v-row>
   </v-container>
