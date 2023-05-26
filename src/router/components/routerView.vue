@@ -15,7 +15,14 @@ export default {}
         <v-btn :to="{name:'qrReaderView'}" icon>
           <v-icon>mdi-qrcode-scan</v-icon>
         </v-btn>
+        <v-btn :to="{name:'productsView'}" icon>
+          <v-icon>mdi-gas-station</v-icon>
+        </v-btn>
+        <v-btn :to="{name:'queuesView'}" icon>
+          <v-icon>mdi-clipboard-list</v-icon>
+        </v-btn>
         <v-btn
+          icon
           :to="{name:'login'}" color="primary"
         >
           <v-icon>mdi-account</v-icon>

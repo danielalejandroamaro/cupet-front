@@ -4,7 +4,6 @@ function dateFormat(date) {
   return date ? moment(date).format('LL') : '-'
 }
 
-
 function monthFormat(date) {
   return date ? moment(date).format('MMMM, YYYY') : '-'
 }
