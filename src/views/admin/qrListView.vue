@@ -62,7 +62,7 @@ export default {
 
 <template>
   <v-container>
-    <v-row v-if="items.length>0">
+    <v-row >
       <v-col cols="12">
         <v-card class="py-4" @click="crateNewQr">
           <div

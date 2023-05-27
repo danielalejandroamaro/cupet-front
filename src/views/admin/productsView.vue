@@ -59,7 +59,7 @@ export default defineComponent({
 
 <template>
   <v-container>
-    <v-row v-if="items.length>0">
+    <v-row>
       <v-col cols="12">
         <v-dialog
           v-model="newProductDialog"
