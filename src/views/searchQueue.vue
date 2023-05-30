@@ -3,10 +3,11 @@ import {defineComponent, ref} from 'vue'
 import {DEFAULT_SEARCH_DEBOUNCE} from "@/const";
 import {_axios} from "@/plugins/axios";
 import AppQueueProcessCard from "@/components/appQueueProcessCard.vue";
+import AppQueueItem from "@/components/appQueueItem.vue";
 
 export default defineComponent({
   name: "searchQueue",
-  components: {AppQueueProcessCard},
+  components: {AppQueueItem, AppQueueProcessCard},
   setup() {
     const search_text = ref("");
     const items = ref([]);
@@ -21,6 +22,7 @@ export default defineComponent({
           }
         }).then(
         ({data}) => {
+          console.log(data.items);
           items.value = data.items
         }
       ).finally(() => {
@@ -80,10 +82,10 @@ export default defineComponent({
         :key="item.id"
         v-for="item in items"
       >
-        <app-queue-process-card
-          item="item"
+        <app-queue-item
+          :item="item"
         >
-        </app-queue-process-card>
+        </app-queue-item>
       </v-col>
     </v-row>
   </v-container>

@@ -79,10 +79,10 @@ export default defineComponent({
               </div>
             </v-card>
           </template>
-          <v-card>
-            <v-card-title class="pt-6">
-              <span class="text-h5">Add new Product</span>
-            </v-card-title>
+          <v-card
+          prepend-icon="mdi-gas-station"
+          >
+            <template v-slot:title>Agrega un nuevo producto</template>
             <v-card-text>
               <v-container>
                 <v-row>
@@ -90,9 +90,9 @@ export default defineComponent({
                     cols="12"
                   >
                     <v-text-field
-                      label="Legal first name*"
+                      label="Nombre del producto*"
                       v-model="newProductName"
-                      required
+                      :rules="[(v)=>v||'campo requerido']"
                     ></v-text-field>
                   </v-col>
                 </v-row>

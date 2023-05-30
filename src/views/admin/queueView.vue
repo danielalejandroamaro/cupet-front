@@ -96,10 +96,12 @@ export default defineComponent({
               </div>
             </v-card>
           </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">User Profile</span>
-            </v-card-title>
+          <v-card
+            prepend-icon="mdi-clipboard-list"
+          >
+            <template v-slot:title>
+              Crea una cola
+            </template>
             <v-card-text>
               <v-container>
                 <v-row>
@@ -134,7 +136,8 @@ export default defineComponent({
                       v-model="newProcessQueue.product_id"
                       item-title="name"
                       item-value="id"
-                      label="Product"
+                      label="Product*"
+                      :rules="[(v)=>v||'campo requerido']"
                     ></v-autocomplete>
                   </v-col>
                 </v-row>

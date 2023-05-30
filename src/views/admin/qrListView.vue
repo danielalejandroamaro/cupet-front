@@ -1,11 +1,13 @@
 <script>
 
-import {_axios, baseUri} from "@/plugins/axios";
+import download_file, {_axios, baseUri} from "@/plugins/axios";
+import moment from "moment";
 
 export default {
   name: "qrListView",
 
   data: () => ({
+    loading: false,
     items: [
       //     {
       //         color: '#952175',
@@ -19,6 +21,17 @@ export default {
     this.fetchData();
   },
   methods: {
+    download_file(qr_id) {
+      this.loading = true
+
+      const queryParams = new URLSearchParams({qr_id: qr_id});
+      download_file(
+        `/admin/download_queue?${queryParams}`,
+        `cola_${qr_id}_${moment().toLocaleString()}.xlsx`
+      ).finally(() =>
+        this.loading = false
+      );
+    },
     crateNewQr() {
       _axios.post(
         "/admin/qr"
@@ -29,13 +42,8 @@ export default {
     },
     descargarImagen(item) {
       let url = item.src;
-      let nombreArchivo = "qr-list";
-      var link = document.createElement('a');
-      link.href = url;
-      link.download = nombreArchivo;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      let nombreArchivo = "qr-list.jpg";
+      download_file(url, nombreArchivo)
     },
     load_data() {
       _axios.get(
@@ -57,12 +65,11 @@ export default {
     },
   }
 }
-
 </script>
 
 <template>
   <v-container>
-    <v-row >
+    <v-row>
       <v-col cols="12">
         <v-card class="py-4" @click="crateNewQr">
           <div
@@ -74,18 +81,32 @@ export default {
         </v-card>
       </v-col>
       <v-col cols="12" v-for="item in items">
-        <v-card @click="descargarImagen(item)">
+        <v-card :disabled="loading" @click="descargarImagen(item)">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title class="text-h5">
                 {{ $filters.dateFormat(item.created_at) }}
               </v-card-title>
-              <v-card-subtitle>
-                <p>
-                  {{ item.count }}
-                </p>
-              </v-card-subtitle>
+              <v-card-text class="d-flex flex-column ">
+                <v-container class="fill-height flex-grow-1 px-0">
+                  <v-row>
+                    <v-col>
+                      <h2 class="text-no-wrap">En esta QR:</h2>
+                    </v-col>
+                    <v-col>
+                      <h2>
+                        {{ item.queue?.length }}
+                      </h2>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
               <v-card-actions>
+                <v-btn
+                  @click.stop="download_file(item.id)"
+                  size="large" color="primary" prepend-icon="mdi-download">
+                  descargar encolados
+                </v-btn>
                 <!--                    <v-btn-->
                 <!--                        v-if="item.artist === 'Ellie Goulding'"-->
                 <!--                        class="ml-2 mt-3"-->
@@ -108,13 +129,13 @@ export default {
                 <!--                    </v-btn>-->
               </v-card-actions>
             </div>
-
             <v-avatar
-              class="ma-3"
-              size="125"
-              tile
+              class="ma-3 pa-0"
+              size="150"
+              rounded="0"
+              :image="item.src"
+              style="border:black dashed 1px"
             >
-              <v-img :src="item.src"></v-img>
             </v-avatar>
           </div>
         </v-card>

@@ -48,7 +48,7 @@ export default defineComponent({
     }
 
     function fetchData() {
-      _axios.get("find",
+      _axios.get("queue",
         {
           params: {
             chapa: search_text.value,

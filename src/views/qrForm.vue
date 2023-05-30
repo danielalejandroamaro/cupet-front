@@ -1,18 +1,22 @@
 <script>
 
 import {_axios} from "@/plugins/axios";
+import AppQueueItem from "@/components/appQueueItem.vue";
 
 export default {
   name: "qrForm",
+  components: {AppQueueItem},
   data: () => ({
-    active_tab: "/list",
     queue: [],
     chapa: '',
     name: '',
     codigo: '',
     telefono: '',
     products: [],
-    product_id: null
+    product_id: null,
+    isLoading: false,
+    show_snackbar: false,
+    error_message: ""
   }),
   beforeMount() {
     this.fetchData()
@@ -31,27 +35,42 @@ export default {
         "telefono": this.telefono,
         "product_id": this.product_id
       };
+      this.isLoading = true;
       _axios.post(
         "/queue",
         _data
-      ).then(this.fetchData);
+      ).then(
+        ({data}) => {
+          this.queue = data.items;
+          this.fetchData();
+        }
+      ).catch((errorPromise) => {
+        console.log("errorPromise", errorPromise)
+        errorPromise.then(
+          ({data}) => ({
+            push_notification: data.detail.push_notification,
+            items: data.detail.items
+          })
+        ).then(({push_notification}) => {
+            this.show_snackbar = true;
+            this.error_message = push_notification;
+          }
+        );
+      }).finally(
+        () => this.isLoading = false
+      );
     },
     fetchData() {
+      this.isLoading = true;
       console.log("fetchData");
-      _axios.get("/products").then(
-        ({data}) => {
-          this.products = data.items;
-        }
-      ).catch(console.log)
-
-      _axios.get(
-        `/queue`, {
-          params: {product_id: this.product_id}
-        }
-      ).then(
-        ({data}) => this.queue = data.items
-      ).catch(console.log)
-      ;
+      Promise.all([
+          _axios.get("/products").then(
+            ({data}) => {
+              this.products = data.items;
+            }
+          ).catch(console.log)
+        ]
+      ).finally(() => this.isLoading = false);
     },
   }
 }
@@ -61,7 +80,7 @@ export default {
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-form @submit.prevent="submitForm">
+        <v-form @submit.prevent="submitForm" :disabled="isLoading">
           <v-card elevation="2">
             <v-container>
               <v-row>
@@ -96,49 +115,41 @@ export default {
                 <v-col cols="12" sm="6">
                   <v-text-field outlined label="telefono" v-model="telefono"></v-text-field>
                 </v-col>
-
               </v-row>
             </v-container>
             <v-card-actions class="f-flex flex-column align-end">
               <div class="d-flex flex-row">
-                <v-btn type="submit">
-                  submit
+                <v-btn type="submit" :disabled="isLoading">
+                  <v-progress-circular v-if="isLoading" indeterminate>
+
+                  </v-progress-circular>
+                  <template v-else>
+                    submit
+                  </template>
                 </v-btn>
               </div>
             </v-card-actions>
           </v-card>
         </v-form>
+        <v-snackbar
+          v-model="show_snackbar"
+        >
+          <v-icon>mdi-alert</v-icon>
+          {{ error_message }}
+          <template v-slot:actions>
+            <v-btn
+              color="red"
+              variant="text"
+              @click="show_snackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-col>
-      <!--      <v-col v-for="item in queue" cols="6" md="3">-->
-      <!--        <v-card elevation="2">-->
-      <!--          <v-card-title class="py-3">-->
-      <!--            <v-avatar-->
-      <!--              color="primary"-->
-      <!--              size="42"-->
-      <!--            >-->
-      <!--              <span class="white&#45;&#45;text text-h5">{{ item.index }}</span>-->
-      <!--            </v-avatar>-->
-      <!--            <span class="ml-3 pr-3 subtitle-1">-->
-      <!--                  {{ item["persone_id.name"] }}-->
-      <!--                  <b>-->
-      <!--                  ({{ item.cupet }})-->
-      <!--                  </b>-->
-      <!--                </span>-->
-      <!--          </v-card-title>-->
-      <!--          <v-card-text>-->
-      <!--                <span>-->
-      <!--                {{ item.created_at|dateFormat }}-->
-      <!--              </span>-->
-      <!--            <span>{{ item["car_id.chapa"] }}</span>-->
-      <!--            &lt;!&ndash;                <pre>{{item}}</pre>&ndash;&gt;-->
-      <!--          </v-card-text>-->
-      <!--          <v-card-actions>-->
-      <!--            <v-btn>-->
-      <!--              accept-->
-      <!--            </v-btn>-->
-      <!--          </v-card-actions>-->
-      <!--        </v-card>-->
-      <!--      </v-col>-->
+      <v-col v-for="item in queue" cols="12" md="6">
+        <app-queue-item :item="item"></app-queue-item>
+      </v-col>
     </v-row>
   </v-container>
 

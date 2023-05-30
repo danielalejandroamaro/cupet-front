@@ -8,32 +8,14 @@ export default {
     username: "",
     password: "",
     show1: false,
+    isLoading: false
   }),
   methods: {
-    // load_auth_headers() {
-    //     const token = localStorage.getItem(StorageKey.TOKEN);
-    //     const tokenType = localStorage.getItem(StorageKey.TOKEN_TYPE);
-    //     if (!token || !tokenType) {
-    //         this.clean_auth_headers()
-    //         return {};
-    //     }
-    //     return {
-    //         "Authorization": `${tokenType} ${token}`
-    //     }
-    // },
-    //
-    // set_auth_headers(tokenType, token) {
-    //     localStorage.setItem(StorageKey.TOKEN, token);
-    //     localStorage.setItem(StorageKey.TOKEN_TYPE, tokenType);
-    // },
-    // clean_auth_headers() {
-    //     localStorage.removeItem(StorageKey.TOKEN_EXPIRATION);
-    //     localStorage.removeItem(StorageKey.TOKEN);
-    // },
     submitForm() {
       const formData = new FormData();
       formData.append('username', this.username);
       formData.append('password', this.password);
+      this.isLoading = true;
       _axios.post(
         "/token",
         formData
@@ -48,7 +30,7 @@ export default {
             }
           );
         }
-      ).catch(console.log);
+      ).catch(console.log).finally(() => this.isLoading = false);
     }
   }
 }
@@ -62,6 +44,7 @@ export default {
         :style="{position: 'relative'}"
       >
         <v-form
+          :disabled="isLoading"
           @submit.prevent="submitForm"
           :style="{
             minWidth:$vuetify.display.xs?'80%':'430px'
@@ -96,8 +79,13 @@ export default {
               </v-row>
             </v-container>
             <v-card-actions class="pt-0">
-              <v-btn type="submit">
-                submit
+              <v-btn type="submit" :disabled="isLoading">
+                <v-progress-circular indeterminate v-if="isLoading">
+
+                </v-progress-circular>
+                <template v-else>
+                  submit
+                </template>
               </v-btn>
             </v-card-actions>
           </v-card>
